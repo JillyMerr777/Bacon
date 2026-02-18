@@ -17,6 +17,15 @@ body {
     text-align: center;
 }
 
+.profile-pic {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    margin-bottom: 2rem;
+}
+
 h1 {
     color: #6B4423;
     font-size: 3rem;
