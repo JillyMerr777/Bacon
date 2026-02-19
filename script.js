@@ -21,25 +21,28 @@ const secrets = [
     "I couldn't figure out why the baseball kept getting larger. Then it hit me."
 ];
 
-function typeSecret(element, text, speed = 50) {
-    element.textContent = '';
-    element.style.opacity = '1';
-    element.style.display = 'block';
-    element.classList.add('typing');
-    
-    let index = 0;
-    
-    function type() {
-        if (index < text.length) {
-            element.textContent += text.charAt(index);
-            index++;
-            setTimeout(type, speed);
-        } else {
-            element.classList.remove('typing');
+function typeSecret(element, text, speed = 30) {
+    return new Promise((resolve) => {
+        element.textContent = '';
+        element.style.opacity = '1';
+        element.style.display = 'block';
+        element.classList.add('typing');
+        
+        let index = 0;
+        
+        function type() {
+            if (index < text.length) {
+                element.textContent += text.charAt(index);
+                index++;
+                setTimeout(type, speed);
+            } else {
+                element.classList.remove('typing');
+                resolve();
+            }
         }
-    }
-    
-    type();
+        
+        type();
+    });
 }
 
 document.querySelector('button').addEventListener('click', function() {
@@ -51,13 +54,13 @@ document.querySelector('button').addEventListener('click', function() {
         clearTimeout(secretDisplay.timeoutId);
     }
     
-    typeSecret(secretDisplay, randomSecret);
-    
-    // Set new timeout for 15 seconds
-    secretDisplay.timeoutId = setTimeout(function() {
-        secretDisplay.style.opacity = '0';
-        setTimeout(function() {
-            secretDisplay.style.display = 'none';
-        }, 300);
-    }, 15000);
+    typeSecret(secretDisplay, randomSecret).then(() => {
+        // Start 10-second timer after typing is complete
+        secretDisplay.timeoutId = setTimeout(function() {
+            secretDisplay.style.opacity = '0';
+            setTimeout(function() {
+                secretDisplay.style.display = 'none';
+            }, 300);
+        }, 10000);
+    });
 });
