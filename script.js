@@ -21,24 +21,43 @@ const secrets = [
     "I couldn't figure out why the baseball kept getting larger. Then it hit me."
 ];
 
+function typeSecret(element, text, speed = 50) {
+    element.textContent = '';
+    element.style.opacity = '1';
+    element.style.display = 'block';
+    element.classList.add('typing');
+    
+    let index = 0;
+    
+    function type() {
+        if (index < text.length) {
+            element.textContent += text.charAt(index);
+            index++;
+            setTimeout(type, speed);
+        } else {
+            element.classList.remove('typing');
+        }
+    }
+    
+    type();
+}
+
 document.querySelector('button').addEventListener('click', function() {
     const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
     const secretDisplay = document.getElementById('secret-display');
-    
-    secretDisplay.textContent = randomSecret;
-    secretDisplay.style.opacity = '1';
-    secretDisplay.style.display = 'block';
     
     // Clear any existing timeout
     if (secretDisplay.timeoutId) {
         clearTimeout(secretDisplay.timeoutId);
     }
     
-    // Set new timeout
+    typeSecret(secretDisplay, randomSecret);
+    
+    // Set new timeout for 15 seconds
     secretDisplay.timeoutId = setTimeout(function() {
         secretDisplay.style.opacity = '0';
         setTimeout(function() {
             secretDisplay.style.display = 'none';
         }, 300);
-    }, 30000);
+    }, 15000);
 });
