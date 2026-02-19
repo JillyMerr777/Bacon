@@ -21,7 +21,7 @@ const secrets = [
     "I couldn't figure out why the baseball kept getting larger. Then it hit me."
 ];
 
-function typeSecret(element, text, speed = 30) {
+function typeSecret(element, text, speed = 50) {
     return new Promise((resolve) => {
         element.textContent = '';
         element.style.opacity = '1';
@@ -45,22 +45,26 @@ function typeSecret(element, text, speed = 30) {
     });
 }
 
-document.querySelector('button').addEventListener('click', function() {
-    const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
+document.addEventListener('DOMContentLoaded', function() {
+    const button = document.querySelector('button');
     const secretDisplay = document.getElementById('secret-display');
     
-    // Clear any existing timeout
-    if (secretDisplay.timeoutId) {
-        clearTimeout(secretDisplay.timeoutId);
-    }
-    
-    typeSecret(secretDisplay, randomSecret).then(() => {
-        // Start 10-second timer after typing is complete
-        secretDisplay.timeoutId = setTimeout(function() {
-            secretDisplay.style.opacity = '0';
-            setTimeout(function() {
-                secretDisplay.style.display = 'none';
-            }, 300);
-        }, 10000);
+    button.addEventListener('click', function() {
+        const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
+        
+        // Clear any existing timeout
+        if (secretDisplay.timeoutId) {
+            clearTimeout(secretDisplay.timeoutId);
+        }
+        
+        typeSecret(secretDisplay, randomSecret).then(() => {
+            // Start 10-second timer after typing is complete
+            secretDisplay.timeoutId = setTimeout(function() {
+                secretDisplay.style.opacity = '0';
+                setTimeout(function() {
+                    secretDisplay.style.display = 'none';
+                }, 300);
+            }, 10000);
+        });
     });
 });
