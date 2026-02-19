@@ -34,6 +34,18 @@ h1 {
     letter-spacing: 0.05em;
 }
 
+.secret-display {
+    display: none;
+    color: #6B4423;
+    font-family: 'Bodoni MT', 'Bodoni', serif;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    line-height: 1.6;
+}
+
 button {
     background-color: #6B4423;
     color: white;
